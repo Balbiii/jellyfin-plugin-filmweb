@@ -5,9 +5,9 @@
   "description": "Dopasowuje filmy i seriale do Filmweb.pl i pokazuje ocenę użytkowników w Jellyfinie.",
   "owner": "Albert Krol",
   "category": "General",
-  "targetAbi": "12.0.0",
-  "version": "1.0.1.0",
-  "changelog": "Wtyczka jest widoczna w katalogu Jellyfin 12.0 i nowszych.",
+  "targetAbi": "10.11.0.0",
+  "version": "1.0.2.0",
+  "changelog": "Wersja dla Jellyfin 10.11.",
   "assemblies": [
     "Jellyfin.Plugin.Filmweb.dll"
   ]

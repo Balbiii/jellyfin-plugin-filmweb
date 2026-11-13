@@ -8,7 +8,7 @@ Filmweb nie udostępnia oficjalnego API dla tej wtyczki. Używany jest ten sam p
 
 ## Wymagania
 
-Jellyfin **12.0** lub nowszy. Wtyczka jest zbudowana na .NET 10 i sprawdzona na Jellyfin 12.4. Do kompilacji potrzebny jest zestaw .NET SDK 10.
+Jellyfin **10.11**. Ta paczka jest zbudowana na .NET 9 pod serwer 10.11.5. Do kompilacji potrzebny jest zestaw .NET SDK 9.
 
 ## Kompilacja
 
@@ -34,7 +34,7 @@ W panelu Jellyfina otwórz repozytoria wtyczek i wklej:
 https://raw.githubusercontent.com/Balbiii/jellyfin-plugin-filmweb/main/manifest.json
 ```
 
-Na stronie wtyczek kliknij **Dostępne** albo **Wszystkie**. Domyślny widok pokazuje tylko zainstalowane pozycje, więc nowej wtyczki tam nie ma. Zainstaluj **Filmweb** i zrestartuj serwer.
+Na stronie wtyczek kliknij **Dostępne** albo **Wszystkie**. Domyślny widok pokazuje tylko zainstalowane pozycje, więc nowej wtyczki tam nie ma. Zainstaluj **Filmweb** i zrestartuj serwer. Ta paczka nie działa na Jellyfin 12.
 
 ## Instalacja ręczna
 
