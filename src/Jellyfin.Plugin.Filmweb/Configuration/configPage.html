@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Filmweb</title>
+</head>
+<body>
+    <div id="FilmwebConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <p>Wtyczka zapisuje ocenę użytkowników Filmweb.pl jako ocenę społeczności Jellyfina (skala 0–10). Tę liczbę widać na plakatach i na stronie tytułu.</p>
+                <p>Po zmianie ustawień uruchom zadanie „Aktualizuj oceny Filmweb”. Nowe tytuły dostają ocenę przy pierwszym odświeżeniu metadanych. Wtyczki nie ma na liście pobierania metadanych biblioteki, bo nie podmienia opisu ani plakatu.</p>
+                <form id="FilmwebConfigForm">
+                    <div class="selectContainer">
+                        <label class="selectLabel" for="CommunityRating">Ocena użytkowników</label>
+                        <select is="emby-select" id="CommunityRating" class="emby-select-withcolor emby-select">
+                            <option value="Replace">Zastępuj ocenę społeczności</option>
+                            <option value="FillIfEmpty">Uzupełniaj tylko gdy jest pusta</option>
+                            <option value="Disabled">Nie zapisuj</option>
+                        </select>
+                        <div class="fieldDescription">To jest gwiazdka i liczba przy tytule. Zastąpienie nadpisuje ocenę z TMDb lub IMDb. Starej oceny nie da się odzyskać bez ponownego pobrania metadanych.</div>
+                    </div>
+                    <div class="selectContainer">
+                        <label class="selectLabel" for="CriticRating">Ocena krytyków</label>
+                        <select is="emby-select" id="CriticRating" class="emby-select-withcolor emby-select">
+                            <option value="Disabled">Nie zapisuj</option>
+                            <option value="FillIfEmpty">Uzupełniaj tylko gdy jest pusta</option>
+                            <option value="Replace">Zastępuj ocenę krytyków</option>
+                        </select>
+                        <div class="fieldDescription">Filmweb podaje krytyków w skali 0–10. Jellyfin pokazuje ocenę krytyków jako procent, więc wtyczka mnoży ją przez 10 (7,9 staje się 79).</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input id="ShowInOverview" type="checkbox" is="emby-checkbox" />
+                            <span>Dopisz ocenę na początku opisu</span>
+                        </label>
+                        <div class="fieldDescription">Dodaje jedną linijkę „«Filmweb» 8,2/10 (liczba ocen)”. Wyłączenie usuwa ją przy następnym przebiegu. Nie rusza zablokowanego opisu.</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input id="EnableMovies" type="checkbox" is="emby-checkbox" />
+                            <span>Filmy</span>
+                        </label>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
+                            <input id="EnableSeries" type="checkbox" is="emby-checkbox" />
+                            <span>Seriale</span>
+                        </label>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="MinimumVotes">Minimalna liczba głosów</label>
+                        <input id="MinimumVotes" type="number" is="emby-input" min="0" />
+                        <div class="fieldDescription">Poniżej tego progu wtyczka zapamięta identyfikator Filmwebu, ale nie zmieni oceny.</div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="CacheDays">Pamięć podręczna (dni)</label>
+                        <input id="CacheDays" type="number" is="emby-input" min="1" max="90" />
+                        <div class="fieldDescription">Jak długo trzymać wynik wyszukiwania i ocenę, zanim Filmweb zostanie odpytany ponownie.</div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="RequestDelayMs">Odstęp między zapytaniami (ms)</label>
+                        <input id="RequestDelayMs" type="number" is="emby-input" min="0" max="10000" />
+                        <div class="fieldDescription">Filmweb nie publikuje tego API. Zostaw co najmniej 300 ms, żeby nie zasypywać serwisu.</div>
+                    </div>
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="MaxCandidates">Ile wyników wyszukiwania sprawdzać</label>
+                        <input id="MaxCandidates" type="number" is="emby-input" min="1" max="10" />
+                        <div class="fieldDescription">Dla każdego tytułu wtyczka porównuje rok i tytuł. Przy remisach nic nie zapisuje.</div>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Zapisz</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var FilmwebConfig = {
+                pluginUniqueId: '6cc145ca-0ecb-40af-9478-0cac21e4e670'
+            };
+
+            function filmwebNumber(id, fallback) {
+                var parsed = parseInt(document.querySelector(id).value, 10);
+                return isNaN(parsed) ? fallback : parsed;
+            }
+
+            document.querySelector('#FilmwebConfigPage')
+                .addEventListener('pageshow', function () {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(FilmwebConfig.pluginUniqueId).then(function (config) {
+                        document.querySelector('#CommunityRating').value = config.CommunityRating || 'Replace';
+                        document.querySelector('#CriticRating').value = config.CriticRating || 'Disabled';
+                        document.querySelector('#ShowInOverview').checked = !!config.ShowInOverview;
+                        document.querySelector('#EnableMovies').checked = config.EnableMovies !== false;
+                        document.querySelector('#EnableSeries').checked = config.EnableSeries !== false;
+                        document.querySelector('#MinimumVotes').value = config.MinimumVotes == null ? 10 : config.MinimumVotes;
+                        document.querySelector('#CacheDays').value = config.CacheDays || 7;
+                        document.querySelector('#RequestDelayMs').value = config.RequestDelayMs == null ? 300 : config.RequestDelayMs;
+                        document.querySelector('#MaxCandidates').value = config.MaxCandidates || 5;
+                        Dashboard.hideLoadingMsg();
+                    });
+                });
+
+            document.querySelector('#FilmwebConfigForm')
+                .addEventListener('submit', function (e) {
+                    Dashboard.showLoadingMsg();
+                    ApiClient.getPluginConfiguration(FilmwebConfig.pluginUniqueId).then(function (config) {
+                        config.CommunityRating = document.querySelector('#CommunityRating').value;
+                        config.CriticRating = document.querySelector('#CriticRating').value;
+                        config.ShowInOverview = document.querySelector('#ShowInOverview').checked;
+                        config.EnableMovies = document.querySelector('#EnableMovies').checked;
+                        config.EnableSeries = document.querySelector('#EnableSeries').checked;
+                        config.MinimumVotes = filmwebNumber('#MinimumVotes', 10);
+                        config.CacheDays = filmwebNumber('#CacheDays', 7);
+                        config.RequestDelayMs = filmwebNumber('#RequestDelayMs', 300);
+                        config.MaxCandidates = filmwebNumber('#MaxCandidates', 5);
+                        ApiClient.updatePluginConfiguration(FilmwebConfig.pluginUniqueId, config).then(function (result) {
+                            Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
+                    });
+
+                    e.preventDefault();
+                    return false;
+                });
+        </script>
+    </div>
+</body>
+</html>

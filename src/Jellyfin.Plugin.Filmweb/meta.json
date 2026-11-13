@@ -1,0 +1,14 @@
+{
+  "guid": "6cc145ca-0ecb-40af-9478-0cac21e4e670",
+  "name": "Filmweb",
+  "overview": "Oceny filmów i seriali z Filmweb.pl",
+  "description": "Dopasowuje filmy i seriale do Filmweb.pl i pokazuje ocenę użytkowników w Jellyfinie.",
+  "owner": "Albert Krol",
+  "category": "Metadata",
+  "targetAbi": "12.4.0.0",
+  "version": "1.0.0.0",
+  "changelog": "Pierwsze wydanie: ocena użytkowników Filmweb dla filmów i seriali.",
+  "assemblies": [
+    "Jellyfin.Plugin.Filmweb.dll"
+  ]
+}
