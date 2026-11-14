@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Jellyfin.Controller" Version="10.11.5">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
@@ -26,6 +30,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Configuration\configPage.html" LogicalName="Jellyfin.Plugin.Filmweb.Configuration.configPage.html" />
+    <EmbeddedResource Include="Web\filmweb-icon.svg" LogicalName="Jellyfin.Plugin.Filmweb.Web.filmweb-icon.svg" />
+    <EmbeddedResource Include="Web\filmweb-rating.css" LogicalName="Jellyfin.Plugin.Filmweb.Web.filmweb-rating.css" />
     <None Include="meta.json" CopyToOutputDirectory="PreserveNewest" />
     <InternalsVisibleTo Include="Jellyfin.Plugin.Filmweb.Tests" />
   </ItemGroup>
