@@ -15,7 +15,7 @@ Jellyfin **10.11**. Ta paczka jest zbudowana na .NET 9 pod serwer 10.11.5. Do ko
 W katalogu repozytorium:
 
 ```powershell
-dotnet test
+dotnet test tests\Jellyfin.Plugin.Filmweb.Tests\Jellyfin.Plugin.Filmweb.Tests.csproj
 dotnet publish src\Jellyfin.Plugin.Filmweb\Jellyfin.Plugin.Filmweb.csproj -c Release -o publish
 ```
 
@@ -55,6 +55,7 @@ Panel → Wtyczki → Filmweb.
 
 - **Ocena użytkowników** — domyślnie zastępuje ocenę społeczności. Można tylko uzupełniać puste pole albo nic nie zapisywać.
 - **Ocena krytyków** — domyślnie wyłączona, żeby nie nadpisać Rotten Tomatoes.
+- **Ikona Filmwebu zamiast gwiazdki** — domyślnie włączona. Patrz niżej.
 - **Dopisek w opisie** — jedna linia `«Filmweb» 8,2/10 (liczba ocen)` na początku opisu. Wyłączenie kasuje ją przy następnym przebiegu.
 - **Minimalna liczba głosów** — poniżej progu identyfikator jest zapamiętywany, ale ocena zostaje bez zmian.
 - **Pamięć podręczna i odstęp zapytań** — jak często i jak grzecznie odpytywać Filmweb.
@@ -62,6 +63,19 @@ Panel → Wtyczki → Filmweb.
 Zablokowany opis nie jest ruszany. Zablokowana pozycja jest pomijana.
 
 Zastąpienie oceny społeczności nadpisuje liczbę z TMDb albo IMDb. Wtyczka nie pamięta poprzedniej wartości. Żeby wrócić do tamtej oceny, ustaw zapis oceny użytkowników na „Nie zapisuj” i odśwież metadane z zamianą.
+
+## Ikona Filmwebu
+
+Zamiast żółtej gwiazdki przy ocenie społeczności klient webowy pokazuje złotą plakietkę z literą „f” i gwiazdką, w stylu Filmwebu. Ikona instaluje się razem z wtyczką. Nie trzeba wklejać własnego CSS ani instalować innych wtyczek.
+
+Jak to działa: wtyczka dopina się do serwera HTTP Jellyfina i przy wysyłaniu strony `/web/index.html` dokleja do niej mały blok stylu z ikoną (SVG w środku stylu). Plików Jellyfina na dysku nie zmienia, więc działa też w Dockerze i po aktualizacji serwera.
+
+- Po instalacji albo aktualizacji wtyczki zrestartuj serwer, a w przeglądarce odśwież stronę (Ctrl+F5).
+- Ikonę wyłączasz w ustawieniach wtyczki: **Ikona Filmwebu zamiast gwiazdki**. Zmiana działa od razu, wystarczy odświeżyć stronę.
+- Działa w przeglądarce oraz w aplikacjach, które ładują klient webowy z serwera (Jellyfin Media Player, aplikacja na Androida). Natywne aplikacje, np. Swiftfin, Android TV czy Roku, rysują własną gwiazdkę i tego nie zmienią.
+- Ikona podmienia gwiazdkę przy każdej ocenie społeczności, także gdy pochodzi z TMDb, a nie z Filmwebu.
+
+Ikona jest własnym rysunkiem inspirowanym kolorystyką Filmwebu, nie oficjalnym logo. Źródło: `src/Jellyfin.Plugin.Filmweb/Web/filmweb-icon.svg`.
 
 ## Dopasowanie
 
