@@ -1,0 +1,32 @@
+/* Filmweb: ikona zamiast gwiazdki przy ocenie społeczności (jellyfin-web 10.11). */
+.starRatingContainer > .starIcon,
+.starRatingContainer > svg.MuiSvgIcon-root {
+    display: inline-block !important;
+    flex: 0 0 auto;
+    width: 1.15em !important;
+    height: 1.15em !important;
+    font-size: inherit !important;
+    line-height: 1 !important;
+    margin-right: 0.35em !important;
+    color: transparent !important;
+    fill: transparent !important;
+    background: url("{{FILMWEB_ICON}}") center / contain no-repeat !important;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.starRatingContainer > .starIcon::before,
+.starRatingContainer > .starIcon::after {
+    content: none !important;
+    display: none !important;
+}
+
+.starRatingContainer > svg.MuiSvgIcon-root > * {
+    display: none !important;
+}
+
+[dir="rtl"] .starRatingContainer > .starIcon,
+[dir="rtl"] .starRatingContainer > svg.MuiSvgIcon-root {
+    margin-right: 0 !important;
+    margin-left: 0.35em !important;
+}

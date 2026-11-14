@@ -6,8 +6,8 @@
   "owner": "Albert Krol",
   "category": "General",
   "targetAbi": "10.11.0.0",
-  "version": "1.0.2.0",
-  "changelog": "Wersja dla Jellyfin 10.11.",
+  "version": "1.0.3.0",
+  "changelog": "Ikona Filmwebu zamiast gwiazdki przy ocenie w kliencie webowym.",
   "assemblies": [
     "Jellyfin.Plugin.Filmweb.dll"
   ]

@@ -1,7 +1,9 @@
 using Jellyfin.Plugin.Filmweb.Filmweb;
 using Jellyfin.Plugin.Filmweb.Services;
+using Jellyfin.Plugin.Filmweb.Web;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jellyfin.Plugin.Filmweb;
@@ -23,5 +25,8 @@ public sealed class PluginServiceRegistrator : IPluginServiceRegistrator
         serviceCollection.AddSingleton<FilmwebClient>();
         serviceCollection.AddSingleton<FilmwebCache>();
         serviceCollection.AddSingleton<FilmwebRatingService>();
+
+        // Ikona Filmwebu zamiast gwiazdki w kliencie webowym.
+        serviceCollection.AddTransient<IStartupFilter, FilmwebWebStartupFilter>();
     }
 }

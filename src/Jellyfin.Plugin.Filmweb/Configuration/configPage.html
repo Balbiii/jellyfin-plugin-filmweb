@@ -38,6 +38,13 @@
                     </div>
                     <div class="checkboxContainer checkboxContainer-withDescription">
                         <label class="emby-checkbox-label">
+                            <input id="ReplaceStarIcon" type="checkbox" is="emby-checkbox" />
+                            <span>Ikona Filmwebu zamiast gwiazdki</span>
+                        </label>
+                        <div class="fieldDescription">Działa w przeglądarce i aplikacjach, które ładują klient webowy z serwera. Po zmianie odśwież stronę (Ctrl+F5). Natywne aplikacje, np. Swiftfin czy Android TV, nadal pokazują gwiazdkę.</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
                             <input id="EnableMovies" type="checkbox" is="emby-checkbox" />
                             <span>Filmy</span>
                         </label>
@@ -93,6 +100,7 @@
                         document.querySelector('#CommunityRating').value = config.CommunityRating || 'Replace';
                         document.querySelector('#CriticRating').value = config.CriticRating || 'Disabled';
                         document.querySelector('#ShowInOverview').checked = !!config.ShowInOverview;
+                        document.querySelector('#ReplaceStarIcon').checked = config.ReplaceStarIcon !== false;
                         document.querySelector('#EnableMovies').checked = config.EnableMovies !== false;
                         document.querySelector('#EnableSeries').checked = config.EnableSeries !== false;
                         document.querySelector('#MinimumVotes').value = config.MinimumVotes == null ? 10 : config.MinimumVotes;
@@ -110,6 +118,7 @@
                         config.CommunityRating = document.querySelector('#CommunityRating').value;
                         config.CriticRating = document.querySelector('#CriticRating').value;
                         config.ShowInOverview = document.querySelector('#ShowInOverview').checked;
+                        config.ReplaceStarIcon = document.querySelector('#ReplaceStarIcon').checked;
                         config.EnableMovies = document.querySelector('#EnableMovies').checked;
                         config.EnableSeries = document.querySelector('#EnableSeries').checked;
                         config.MinimumVotes = filmwebNumber('#MinimumVotes', 10);

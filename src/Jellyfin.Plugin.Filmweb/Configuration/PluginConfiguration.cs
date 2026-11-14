@@ -17,6 +17,8 @@ public class PluginConfiguration : BasePluginConfiguration
 
     public bool ShowInOverview { get; set; }
 
+    public bool ReplaceStarIcon { get; set; } = true;
+
     public bool EnableMovies { get; set; } = true;
 
     public bool EnableSeries { get; set; } = true;
